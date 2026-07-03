@@ -1,0 +1,2163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Better Call Agents | Agentic Legal AI Investor Showcase</title>
+    <meta
+      name="description"
+      content="Better Call Agents is an investor-ready showcase for agentic legal information retrieval, citation-first Legal RAG, and auditable AI workflows."
+    />
+    <meta property="og:title" content="Better Call Agents | Agentic Legal AI" />
+    <meta
+      property="og:description"
+      content="Agentic legal information retrieval for answers backed by law, facts, and traceable sources."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#aa0906" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #050302;
+        --coal: #0d0908;
+        --charcoal: #17100d;
+        --crimson: #aa0906;
+        --red-hot: #d2140b;
+        --verdict-gold: #f8c904;
+        --sun: #ffe26f;
+        --paper: #fff3c5;
+        --paper-muted: #e8d7aa;
+        --ivory: #fffaf0;
+        --evidence-blue: #0873bd;
+        --cyan: #61d9ff;
+        --line-red: rgba(210, 20, 11, 0.38);
+        --line-gold: rgba(248, 201, 4, 0.28);
+        --glass: rgba(255, 247, 217, 0.065);
+        --glass-strong: rgba(255, 247, 217, 0.11);
+        --bezier: cubic-bezier(0.32, 0.72, 0, 1);
+        --bezier-heavy: cubic-bezier(0.16, 1, 0.3, 1);
+        color-scheme: dark;
+        font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+        background: var(--ink);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background:
+          radial-gradient(circle at 15% 12%, rgba(210, 20, 11, 0.2), transparent 26rem),
+          radial-gradient(circle at 80% 10%, rgba(248, 201, 4, 0.11), transparent 24rem),
+          linear-gradient(180deg, #130907 0%, #070403 44%, #050302 100%);
+        color: var(--ivory);
+        overflow-x: hidden;
+        text-rendering: optimizeLegibility;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, rgba(255, 226, 111, 0.05) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 226, 111, 0.04) 1px, transparent 1px);
+        background-size: 84px 84px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 82%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .scene {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.055;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.72'/%3E%3C/svg%3E");
+      }
+
+      .page {
+        position: relative;
+        z-index: 2;
+      }
+
+      .nav-shell {
+        position: sticky;
+        top: 24px;
+        z-index: 20;
+        width: min(94vw, 980px);
+        margin: 24px auto 0;
+        padding: 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 243, 197, 0.14);
+        background: rgba(8, 5, 4, 0.72);
+        backdrop-filter: blur(24px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          0 22px 80px rgba(0, 0, 0, 0.35);
+      }
+
+      .nav-core {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 20px;
+        min-height: 56px;
+        padding: 0 10px 0 16px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(255, 243, 197, 0.06), rgba(210, 20, 11, 0.08));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-width: max-content;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        color: var(--ink);
+        background:
+          linear-gradient(145deg, var(--sun), var(--verdict-gold) 52%, #d68f00),
+          var(--verdict-gold);
+        box-shadow:
+          inset 0 2px 0 rgba(255, 255, 255, 0.35),
+          0 0 0 1px rgba(255, 226, 111, 0.24);
+      }
+
+      .brand-mark svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.65;
+      }
+
+      .nav-links {
+        justify-self: center;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border-radius: 999px;
+        color: rgba(255, 250, 240, 0.75);
+        font-size: 13px;
+        font-weight: 700;
+        transition:
+          color 620ms var(--bezier),
+          background 620ms var(--bezier),
+          transform 620ms var(--bezier);
+      }
+
+      .nav-links a:hover {
+        color: var(--ivory);
+        background: rgba(255, 243, 197, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .menu-toggle {
+        position: relative;
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: 0;
+        border-radius: 50%;
+        color: var(--ivory);
+        background: rgba(255, 243, 197, 0.08);
+        cursor: pointer;
+      }
+
+      .menu-toggle span {
+        position: absolute;
+        left: 12px;
+        width: 18px;
+        height: 1.5px;
+        border-radius: 999px;
+        background: currentColor;
+        transition:
+          transform 700ms var(--bezier),
+          opacity 700ms var(--bezier);
+      }
+
+      .menu-toggle span:first-child {
+        top: 16px;
+      }
+
+      .menu-toggle span:last-child {
+        top: 25px;
+      }
+
+      .menu-toggle[aria-expanded="true"] span:first-child {
+        transform: translateY(4.5px) rotate(45deg);
+      }
+
+      .menu-toggle[aria-expanded="true"] span:last-child {
+        transform: translateY(-4.5px) rotate(-45deg);
+      }
+
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 18;
+        display: grid;
+        place-items: center;
+        padding: 108px 20px 36px;
+        background: rgba(5, 3, 2, 0.88);
+        backdrop-filter: blur(28px);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-18px);
+        transition:
+          opacity 720ms var(--bezier-heavy),
+          transform 720ms var(--bezier-heavy);
+      }
+
+      .mobile-menu.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 14px 0;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: clamp(42px, 13vw, 86px);
+        letter-spacing: 0;
+        line-height: 0.92;
+        color: var(--paper);
+        opacity: 0;
+        transform: translateY(42px);
+        transition:
+          opacity 760ms var(--bezier-heavy),
+          transform 760ms var(--bezier-heavy);
+      }
+
+      .mobile-menu.open a {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .mobile-menu.open a:nth-child(2) {
+        transition-delay: 80ms;
+      }
+
+      .mobile-menu.open a:nth-child(3) {
+        transition-delay: 140ms;
+      }
+
+      .mobile-menu.open a:nth-child(4) {
+        transition-delay: 200ms;
+      }
+
+      .magnetic {
+        --mx: 0px;
+        --my: 0px;
+        transform: translate3d(var(--mx), var(--my), 0);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        min-height: 52px;
+        padding: 8px 9px 8px 22px;
+        border: 0;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0;
+        cursor: pointer;
+        transition:
+          transform 720ms var(--bezier),
+          background 720ms var(--bezier),
+          color 720ms var(--bezier);
+      }
+
+      .btn:active {
+        transform: translate3d(var(--mx), var(--my), 0) scale(0.98);
+      }
+
+      .btn-primary {
+        color: var(--ink);
+        background:
+          linear-gradient(135deg, var(--sun), var(--verdict-gold) 55%, #e28d00),
+          var(--verdict-gold);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.46),
+          0 22px 70px rgba(248, 201, 4, 0.18);
+      }
+
+      .btn-secondary {
+        color: var(--paper);
+        background: rgba(255, 243, 197, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .btn .btn-icon {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        color: inherit;
+        background: rgba(5, 3, 2, 0.14);
+        transition:
+          transform 720ms var(--bezier),
+          background 720ms var(--bezier);
+      }
+
+      .btn-secondary .btn-icon {
+        background: rgba(255, 243, 197, 0.12);
+      }
+
+      .btn:hover .btn-icon {
+        transform: translate3d(4px, -1px, 0) scale(1.06);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+        align-items: center;
+        gap: clamp(28px, 6vw, 84px);
+        width: min(1180px, calc(100% - 48px));
+        min-height: calc(100dvh - 92px);
+        margin: 0 auto;
+        padding: clamp(74px, 12vw, 152px) 0 96px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 28px;
+        padding: 0 12px;
+        border-radius: 999px;
+        color: var(--sun);
+        background: rgba(248, 201, 4, 0.09);
+        box-shadow:
+          inset 0 0 0 1px rgba(248, 201, 4, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--red-hot);
+        box-shadow: 0 0 0 4px rgba(210, 20, 11, 0.17);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .hero h1 {
+        margin: 22px 0 18px;
+        max-width: 720px;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: clamp(72px, 12vw, 162px);
+        line-height: 0.83;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        color: var(--paper);
+        text-shadow:
+          0 5px 0 rgba(170, 9, 6, 0.72),
+          0 18px 55px rgba(0, 0, 0, 0.55);
+      }
+
+      .script-note {
+        display: block;
+        margin-top: 8px;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(34px, 6vw, 74px);
+        font-style: italic;
+        font-weight: 400;
+        line-height: 0.95;
+        text-transform: none;
+        color: var(--verdict-gold);
+        text-shadow: 0 9px 32px rgba(248, 201, 4, 0.18);
+      }
+
+      .hero-lede {
+        max-width: 660px;
+        margin-bottom: 30px;
+        color: rgba(255, 250, 240, 0.78);
+        font-size: clamp(18px, 2vw, 22px);
+        line-height: 1.65;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .proof-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        max-width: 680px;
+        margin-top: 34px;
+      }
+
+      .proof-strip span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        color: rgba(255, 250, 240, 0.78);
+        background: rgba(255, 243, 197, 0.06);
+        box-shadow: inset 0 0 0 1px rgba(255, 243, 197, 0.11);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .hero-stage {
+        position: relative;
+        min-height: 620px;
+      }
+
+      .bezel {
+        padding: 8px;
+        border-radius: 32px;
+        border: 1px solid rgba(255, 243, 197, 0.13);
+        background:
+          linear-gradient(140deg, rgba(255, 243, 197, 0.13), rgba(210, 20, 11, 0.08)),
+          rgba(255, 243, 197, 0.035);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          0 34px 110px rgba(0, 0, 0, 0.36);
+      }
+
+      .core {
+        border-radius: 24px;
+        background:
+          linear-gradient(180deg, rgba(27, 15, 11, 0.98), rgba(10, 6, 5, 0.98)),
+          var(--coal);
+        box-shadow:
+          inset 0 1px 1px rgba(255, 255, 255, 0.14),
+          inset 0 -1px 0 rgba(255, 243, 197, 0.06);
+        overflow: hidden;
+      }
+
+      .device-shell {
+        position: absolute;
+        inset: 34px 18px auto auto;
+        width: min(100%, 520px);
+        transform: rotate(1.5deg);
+      }
+
+      .device-core {
+        min-height: 520px;
+        padding: 24px;
+      }
+
+      .scan-line {
+        height: 9px;
+        border-radius: 999px;
+        background:
+          linear-gradient(90deg, var(--crimson), var(--verdict-gold), var(--evidence-blue)),
+          var(--crimson);
+        box-shadow: 0 16px 52px rgba(210, 20, 11, 0.28);
+      }
+
+      .terminal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin: 24px 0;
+      }
+
+      .dots {
+        display: flex;
+        gap: 7px;
+      }
+
+      .dots i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--red-hot);
+      }
+
+      .dots i:nth-child(2) {
+        background: var(--verdict-gold);
+      }
+
+      .dots i:nth-child(3) {
+        background: var(--evidence-blue);
+      }
+
+      .terminal-head strong {
+        color: rgba(255, 250, 240, 0.86);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .query-card {
+        padding: 20px;
+        border-radius: 20px;
+        background:
+          linear-gradient(135deg, rgba(170, 9, 6, 0.26), rgba(248, 201, 4, 0.08)),
+          rgba(255, 243, 197, 0.045);
+        box-shadow: inset 0 0 0 1px rgba(255, 243, 197, 0.12);
+      }
+
+      .query-card small,
+      .source-row small,
+      .mini-card small {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--sun);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .query-card p {
+        margin: 0;
+        color: var(--paper);
+        font-size: 19px;
+        font-weight: 800;
+        line-height: 1.42;
+      }
+
+      .confidence {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+        margin: 22px 0;
+      }
+
+      .confidence span {
+        color: rgba(255, 250, 240, 0.65);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .bar {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 243, 197, 0.08);
+        overflow: hidden;
+      }
+
+      .bar i {
+        display: block;
+        width: 92%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--red-hot), var(--verdict-gold));
+      }
+
+      .source-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .source-row {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        align-items: center;
+        min-height: 72px;
+        padding: 12px;
+        border-radius: 18px;
+        background: rgba(255, 243, 197, 0.047);
+        box-shadow: inset 0 0 0 1px rgba(255, 243, 197, 0.09);
+      }
+
+      .source-row b {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        color: var(--ink);
+        background: var(--verdict-gold);
+        font-size: 13px;
+      }
+
+      .source-row p {
+        margin: 0;
+        color: rgba(255, 250, 240, 0.78);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .floating-card {
+        position: absolute;
+        right: 0;
+        bottom: 24px;
+        width: 285px;
+        transform: rotate(-3deg);
+      }
+
+      .floating-card .core {
+        padding: 18px;
+        background:
+          linear-gradient(180deg, rgba(255, 226, 111, 0.92), rgba(248, 201, 4, 0.9)),
+          var(--verdict-gold);
+        color: var(--ink);
+      }
+
+      .mini-card strong {
+        display: block;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: 54px;
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .mini-card p {
+        margin: 6px 0 0;
+        color: rgba(5, 3, 2, 0.78);
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1.42;
+      }
+
+      .section {
+        width: min(1180px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 118px 0;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.82fr) minmax(260px, 0.48fr);
+        gap: clamp(24px, 5vw, 72px);
+        align-items: end;
+        margin-bottom: 42px;
+      }
+
+      .section h2 {
+        margin: 18px 0 0;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: clamp(54px, 8vw, 110px);
+        line-height: 0.92;
+        letter-spacing: 0;
+        color: var(--paper);
+        text-transform: uppercase;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: rgba(255, 250, 240, 0.68);
+        font-size: 16px;
+        line-height: 1.72;
+      }
+
+      .thesis-grid {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 18px;
+      }
+
+      .manifesto {
+        min-height: 500px;
+      }
+
+      .manifesto .core {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 500px;
+        padding: clamp(24px, 4vw, 44px);
+        background:
+          linear-gradient(135deg, rgba(170, 9, 6, 0.76), rgba(67, 10, 7, 0.96) 52%, rgba(9, 6, 5, 0.98)),
+          var(--crimson);
+      }
+
+      .manifesto blockquote {
+        margin: 0;
+        max-width: 660px;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(34px, 5vw, 68px);
+        font-style: italic;
+        line-height: 1.02;
+        color: var(--paper);
+      }
+
+      .manifesto p {
+        max-width: 620px;
+        margin: 40px 0 0;
+        color: rgba(255, 250, 240, 0.78);
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      .signal-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .signal-card .core {
+        min-height: 151px;
+        padding: 24px;
+      }
+
+      .signal-card h3,
+      .agent-card h3,
+      .metric-card h3,
+      .ask-card h3 {
+        margin: 0 0 12px;
+        color: var(--paper);
+        font-size: clamp(20px, 2vw, 25px);
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .signal-card p,
+      .agent-card p,
+      .metric-card p,
+      .ask-card p {
+        margin: 0;
+        color: rgba(255, 250, 240, 0.67);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .pipeline-board .core {
+        padding: clamp(18px, 3vw, 30px);
+        color: var(--ink);
+        background: var(--verdict-gold);
+      }
+
+      .pipeline-topline {
+        display: grid;
+        grid-template-columns: 1fr minmax(220px, 0.36fr);
+        gap: 24px;
+        align-items: end;
+        margin-bottom: 20px;
+        padding-bottom: 18px;
+        border-bottom: 3px solid rgba(5, 3, 2, 0.88);
+      }
+
+      .pipeline-topline small {
+        display: inline-flex;
+        min-height: 26px;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 999px;
+        color: var(--paper);
+        background: var(--crimson);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .pipeline-topline h3 {
+        margin: 12px 0 0;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: clamp(38px, 6vw, 86px);
+        line-height: 0.9;
+        letter-spacing: 0;
+        color: var(--ink);
+        text-transform: uppercase;
+      }
+
+      .pipeline-topline p {
+        margin: 0;
+        padding: 16px;
+        border: 2px solid rgba(170, 9, 6, 0.8);
+        border-radius: 16px;
+        color: var(--crimson);
+        background: rgba(255, 250, 240, 0.75);
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      .pipeline-rows {
+        display: grid;
+        gap: 12px;
+      }
+
+      .pipeline-row {
+        display: grid;
+        grid-template-columns: 150px repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .pipeline-row.focus {
+        padding: 8px;
+        border: 2px dashed var(--crimson);
+        border-radius: 20px;
+      }
+
+      .stage-label {
+        display: grid;
+        align-content: center;
+        gap: 10px;
+        min-height: 108px;
+        padding: 14px;
+        border-radius: 16px;
+        color: var(--paper);
+        background: var(--crimson);
+      }
+
+      .stage-label b {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 38px;
+        border-radius: 9px;
+        color: var(--paper);
+        background: var(--ink);
+        font-size: 24px;
+      }
+
+      .stage-label span {
+        font-size: 15px;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .pipe-step {
+        position: relative;
+        min-height: 108px;
+        padding: 14px 14px 18px;
+        border: 2px solid var(--ink);
+        border-radius: 16px;
+        background: var(--ivory);
+        box-shadow: 5px 5px 0 rgba(5, 3, 2, 0.17);
+      }
+
+      .pipe-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -11px;
+        width: 15px;
+        height: 15px;
+        background: var(--crimson);
+        clip-path: polygon(0 0, 100% 50%, 0 100%);
+        transform: translateY(-50%);
+      }
+
+      .pipe-step small {
+        display: inline-grid;
+        place-items: center;
+        width: 26px;
+        height: 22px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        color: var(--paper);
+        background: var(--ink);
+        font-size: 10px;
+        font-weight: 900;
+      }
+
+      .pipe-step p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .result-log {
+        display: grid;
+        grid-template-columns: minmax(250px, 0.52fr) 1fr;
+        gap: 18px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 3px solid rgba(5, 3, 2, 0.88);
+      }
+
+      .result-log h4 {
+        margin: 0 0 8px;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: 44px;
+        line-height: 0.95;
+        letter-spacing: 0;
+        color: var(--crimson);
+        text-transform: uppercase;
+      }
+
+      .result-log p {
+        margin: 0;
+        max-width: 440px;
+        color: rgba(5, 3, 2, 0.78);
+        font-size: 15px;
+        font-weight: 900;
+        line-height: 1.42;
+      }
+
+      .result-bars {
+        display: grid;
+        gap: 8px;
+      }
+
+      .result-bar {
+        display: grid;
+        grid-template-columns: 134px 1fr 52px;
+        gap: 10px;
+        align-items: center;
+        min-height: 34px;
+      }
+
+      .result-bar span,
+      .result-bar b {
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .result-bar i {
+        height: 13px;
+        border: 1px solid rgba(5, 3, 2, 0.62);
+        border-radius: 999px;
+        background:
+          linear-gradient(90deg, var(--crimson) var(--score), rgba(255, 250, 240, 0.82) 0),
+          rgba(255, 250, 240, 0.82);
+      }
+
+      .result-bar.final span,
+      .result-bar.final b {
+        color: var(--crimson);
+        font-size: 14px;
+      }
+
+      .agent-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr 1fr;
+        grid-auto-rows: minmax(245px, auto);
+        gap: 18px;
+      }
+
+      .agent-card .core {
+        height: 100%;
+        padding: 24px;
+      }
+
+      .agent-card:nth-child(1) {
+        grid-column: span 2;
+      }
+
+      .agent-card:nth-child(4) {
+        grid-row: span 2;
+      }
+
+      .agent-card:nth-child(5) {
+        grid-column: span 2;
+      }
+
+      .agent-number {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 34px;
+      }
+
+      .agent-number span {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        color: var(--ink);
+        background: var(--verdict-gold);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .agent-number em {
+        color: rgba(255, 250, 240, 0.54);
+        font-size: 10px;
+        font-style: normal;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .agent-card ul,
+      .metric-card ul,
+      .ask-card ul {
+        display: grid;
+        gap: 10px;
+        margin: 22px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .agent-card li,
+      .metric-card li,
+      .ask-card li {
+        position: relative;
+        padding-left: 18px;
+        color: rgba(255, 250, 240, 0.72);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .agent-card li::before,
+      .metric-card li::before,
+      .ask-card li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.68em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--red-hot);
+        box-shadow: 0 0 0 4px rgba(210, 20, 11, 0.13);
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .metric-card .core {
+        height: 100%;
+        padding: clamp(24px, 4vw, 34px);
+      }
+
+      .metric-card.highlight .core {
+        background:
+          linear-gradient(145deg, rgba(248, 201, 4, 0.92), rgba(255, 226, 111, 0.84)),
+          var(--verdict-gold);
+        color: var(--ink);
+      }
+
+      .metric-card.highlight h3,
+      .metric-card.highlight p,
+      .metric-card.highlight li {
+        color: var(--ink);
+      }
+
+      .metric-card.highlight li::before {
+        background: var(--crimson);
+        box-shadow: 0 0 0 4px rgba(170, 9, 6, 0.13);
+      }
+
+      .metric-kpis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .kpi {
+        min-height: 128px;
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(5, 3, 2, 0.11);
+        box-shadow: inset 0 0 0 1px rgba(5, 3, 2, 0.15);
+      }
+
+      .kpi strong {
+        display: block;
+        font-family: "Bebas Neue", "Impact", sans-serif;
+        font-size: clamp(42px, 5vw, 62px);
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .kpi span {
+        display: block;
+        margin-top: 8px;
+        color: rgba(5, 3, 2, 0.73);
+        font-size: 12px;
+        font-weight: 800;
+        line-height: 1.4;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .timeline .core {
+        min-height: 210px;
+        padding: 22px;
+      }
+
+      .timeline time {
+        display: inline-flex;
+        min-height: 28px;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 999px;
+        color: var(--sun);
+        background: rgba(248, 201, 4, 0.09);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .timeline h3 {
+        margin: 20px 0 10px;
+        color: var(--paper);
+        font-size: 20px;
+      }
+
+      .timeline p {
+        margin: 0;
+        color: rgba(255, 250, 240, 0.66);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .team-strip {
+        display: grid;
+        grid-template-columns: 1fr 0.72fr;
+        gap: 18px;
+      }
+
+      .team-card .core,
+      .ask-card .core {
+        min-height: 100%;
+        padding: clamp(24px, 4vw, 38px);
+      }
+
+      .team-card h2 {
+        margin-bottom: 24px;
+      }
+
+      .people {
+        display: grid;
+        gap: 14px;
+      }
+
+      .person {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 12px;
+        border-radius: 22px;
+        background: rgba(255, 243, 197, 0.052);
+        box-shadow: inset 0 0 0 1px rgba(255, 243, 197, 0.09);
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        color: var(--ink);
+        background:
+          linear-gradient(135deg, var(--paper), var(--verdict-gold)),
+          var(--verdict-gold);
+        font-weight: 900;
+      }
+
+      .person strong {
+        display: block;
+        color: var(--paper);
+        font-size: 16px;
+      }
+
+      .person span {
+        display: block;
+        margin-top: 3px;
+        color: rgba(255, 250, 240, 0.58);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .ask-card.feature .core {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background:
+          linear-gradient(145deg, rgba(8, 115, 189, 0.35), rgba(210, 20, 11, 0.28)),
+          rgba(255, 243, 197, 0.04);
+      }
+
+      .ask-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .footer {
+        width: min(1180px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 44px 0 74px;
+        color: rgba(255, 250, 240, 0.52);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .footer-line {
+        height: 1px;
+        margin-bottom: 24px;
+        background: linear-gradient(90deg, transparent, rgba(248, 201, 4, 0.28), rgba(210, 20, 11, 0.28), transparent);
+      }
+
+      .reveal {
+        opacity: 0;
+        filter: blur(10px);
+        transform: translateY(56px);
+        transition:
+          opacity 900ms var(--bezier-heavy),
+          filter 900ms var(--bezier-heavy),
+          transform 900ms var(--bezier-heavy);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+
+      .delay-1 {
+        transition-delay: 90ms;
+      }
+
+      .delay-2 {
+        transition-delay: 160ms;
+      }
+
+      .delay-3 {
+        transition-delay: 230ms;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .section-head,
+        .thesis-grid,
+        .metric-grid,
+        .team-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 88px;
+        }
+
+        .hero-stage {
+          min-height: 580px;
+        }
+
+        .device-shell {
+          inset: 0 auto auto 0;
+          width: min(100%, 560px);
+        }
+
+        .floating-card {
+          right: 18px;
+        }
+
+        .agent-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .pipeline-topline,
+        .result-log {
+          grid-template-columns: 1fr;
+        }
+
+        .pipeline-row {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .stage-label {
+          grid-column: 1 / -1;
+        }
+
+        .agent-card:nth-child(1),
+        .agent-card:nth-child(5) {
+          grid-column: span 1;
+        }
+
+        .agent-card:nth-child(4) {
+          grid-row: span 1;
+        }
+
+        .timeline {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .nav-shell {
+          top: 12px;
+          width: calc(100% - 24px);
+          margin-top: 12px;
+        }
+
+        .nav-core {
+          grid-template-columns: 1fr auto;
+          gap: 10px;
+          padding-left: 12px;
+        }
+
+        .nav-links,
+        .nav-cta {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .hero,
+        .section,
+        .footer {
+          width: calc(100% - 32px);
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 38px;
+          min-height: auto;
+          padding: 76px 0 72px;
+        }
+
+        .hero h1 {
+          font-size: clamp(66px, 23vw, 112px);
+        }
+
+        .script-note {
+          font-size: clamp(36px, 15vw, 58px);
+        }
+
+        .hero-lede {
+          font-size: 16px;
+        }
+
+        .hero-actions .btn {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .hero-stage {
+          min-height: 610px;
+        }
+
+        .device-shell {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          transform: none;
+        }
+
+        .device-core {
+          min-height: auto;
+          padding: 18px;
+        }
+
+        .floating-card {
+          position: relative;
+          right: auto;
+          bottom: auto;
+          width: min(100%, 320px);
+          margin: -12px 0 0 auto;
+          transform: none;
+        }
+
+        .section {
+          padding: 84px 0;
+        }
+
+        .section h2 {
+          font-size: clamp(50px, 16vw, 82px);
+        }
+
+        .manifesto,
+        .manifesto .core {
+          min-height: auto;
+        }
+
+        .agent-grid,
+        .timeline,
+        .metric-kpis {
+          grid-template-columns: 1fr;
+        }
+
+        .pipeline-row {
+          grid-template-columns: 1fr;
+        }
+
+        .pipeline-row.focus {
+          padding: 6px;
+        }
+
+        .pipe-step:not(:last-child)::after {
+          top: auto;
+          right: 50%;
+          bottom: -11px;
+          transform: translateX(50%) rotate(90deg);
+        }
+
+        .result-bar {
+          grid-template-columns: 96px 1fr 44px;
+        }
+
+        .bezel {
+          border-radius: 26px;
+          padding: 6px;
+        }
+
+        .core {
+          border-radius: 20px;
+        }
+
+        .proof-strip span {
+          min-height: 30px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 1ms !important;
+        }
+
+        .reveal {
+          opacity: 1;
+          filter: none;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="scene" id="evidenceCanvas" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+
+    <div class="page">
+      <nav class="nav-shell" aria-label="Main navigation">
+        <div class="nav-core">
+          <a class="brand" href="#top" aria-label="Better Call Agents home">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 4v15M6.5 8.5h11M8 8.5 5.2 15h5.6L8 8.5Zm8 0L13.2 15h5.6L16 8.5ZM9 20h6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Better Call Agents
+          </a>
+          <div class="nav-links" aria-label="Section links">
+            <a href="#thesis">Thesis</a>
+            <a href="#pipeline">Pipeline</a>
+            <a href="#catalog">Agents</a>
+            <a href="#diligence">Diligence</a>
+            <a href="#ask">Ask</a>
+          </div>
+          <a class="btn btn-secondary nav-cta magnetic" href="pitch-deck.html">
+            Pitch deck
+            <span class="btn-icon" aria-hidden="true">↗</span>
+          </a>
+          <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <div>
+          <a href="#thesis">Thesis</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#catalog">Agents</a>
+          <a href="#diligence">Diligence</a>
+          <a href="#ask">Investor Ask</a>
+        </div>
+      </div>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy reveal">
+            <span class="eyebrow">Investor catalog / Legal AI agents</span>
+            <h1 id="hero-title">
+              Better Call Agents
+              <span class="script-note">legal answers with receipts</span>
+            </h1>
+            <p class="hero-lede">
+              Agentic legal information retrieval for teams that need answers backed by statutes, matter facts,
+              internal playbooks, and traceable source ledgers. Built as a credible accelerator showcase for Legal
+              RAG, not another generic chat window.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary magnetic" href="#catalog">
+                View agent catalog
+                <span class="btn-icon" aria-hidden="true">↓</span>
+              </a>
+              <a class="btn btn-secondary magnetic" href="pitch-deck.html">
+                Open HTML deck
+                <span class="btn-icon" aria-hidden="true">↗</span>
+              </a>
+              <a class="btn btn-secondary magnetic" href="#ask">
+                Accelerator fit
+                <span class="btn-icon" aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div class="proof-strip" aria-label="Product signals">
+              <span>Agentic Legal Information Retrieval</span>
+              <span>Legal RAG</span>
+              <span>Human-in-loop</span>
+              <span>Hannover origin</span>
+            </div>
+          </div>
+
+          <div class="hero-stage reveal delay-1" aria-label="Product interface preview">
+            <div class="bezel device-shell">
+              <div class="core device-core">
+                <div class="scan-line" aria-hidden="true"></div>
+                <div class="terminal-head">
+                  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <strong>Source-ledger workflow</strong>
+                </div>
+                <div class="query-card">
+                  <small>Legal task</small>
+                  <p>Assess a risky clause, retrieve authority, verify citations, draft a counsel-ready memo.</p>
+                </div>
+                <div class="confidence">
+                  <span>Confidence</span>
+                  <div class="bar" aria-hidden="true"><i></i></div>
+                  <span>92%</span>
+                </div>
+                <div class="source-stack">
+                  <div class="source-row">
+                    <b>01</b>
+                    <div>
+                      <small>Retrieval Agent</small>
+                      <p>Ranks legal sources by jurisdiction, authority, freshness, and matter fit.</p>
+                    </div>
+                  </div>
+                  <div class="source-row">
+                    <b>02</b>
+                    <div>
+                      <small>Citation Agent</small>
+                      <p>Checks references before text is promoted into a client-facing answer.</p>
+                    </div>
+                  </div>
+                  <div class="source-row">
+                    <b>03</b>
+                    <div>
+                      <small>Risk Agent</small>
+                      <p>Flags gaps, conflicts, deadlines, and human escalation requirements.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bezel floating-card">
+              <div class="core mini-card">
+                <small>Investor signal</small>
+                <strong>RAG → Agents</strong>
+                <p>A focused wedge from legal retrieval into auditable multi-agent workflows.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="thesis">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Why this matters</span>
+              <h2>Legal AI needs proof, not vibes.</h2>
+            </div>
+            <p>
+              The strongest legal AI wedge is not a prettier chatbot. It is a verifiable workflow that turns scattered
+              law, contracts, templates, and matter facts into evidence-backed actions with clear escalation points.
+            </p>
+          </div>
+
+          <div class="thesis-grid">
+            <article class="bezel manifesto reveal delay-1">
+              <div class="core">
+                <blockquote>
+                  Every answer should arrive with the trail of how it was found, checked, and approved.
+                </blockquote>
+                <p>
+                  Better Call Agents positions Legal RAG as an operating layer: retrieval first, generation second,
+                  citation validation always, and a human-in-loop whenever risk moves past the guardrails.
+                </p>
+              </div>
+            </article>
+
+            <div class="signal-stack">
+              <article class="bezel signal-card reveal delay-1">
+                <div class="core">
+                  <h3>Source-first moat</h3>
+                  <p>Answers are composed from an evidence ledger rather than opaque model confidence.</p>
+                </div>
+              </article>
+              <article class="bezel signal-card reveal delay-2">
+                <div class="core">
+                  <h3>Workflow wedge</h3>
+                  <p>Agent handoffs map to how legal work already moves: intake, research, checking, drafting, review.</p>
+                </div>
+              </article>
+              <article class="bezel signal-card reveal delay-3">
+                <div class="core">
+                  <h3>Trust architecture</h3>
+                  <p>Human review, citation checks, audit logs, and jurisdiction tagging make the product enterprise-ready.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="pipeline">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Citation-retrieval proof</span>
+              <h2>Exact citations are the wedge.</h2>
+            </div>
+            <p>
+              The pipeline story is simple enough for investors and precise enough for technical diligence: retrieve
+              broadly, verify legal evidence, then control the final citation set.
+            </p>
+          </div>
+
+          <article class="bezel pipeline-board reveal delay-1">
+            <div class="core">
+              <div class="pipeline-topline">
+                <div>
+                  <small>Team BetterCallAgents</small>
+                  <h3>Legal-reasoning pipeline for exact citation retrieval</h3>
+                </div>
+                <p>Core innovation: selection becomes legal evidence verification.</p>
+              </div>
+
+              <div class="pipeline-rows">
+                <div class="pipeline-row">
+                  <div class="stage-label"><b>1</b><span>Candidate retrieval</span></div>
+                  <div class="pipe-step"><small>A</small><p>Legal question</p></div>
+                  <div class="pipe-step"><small>B</small><p>Multi-view query representation</p></div>
+                  <div class="pipe-step"><small>C</small><p>Dense vector search</p></div>
+                  <div class="pipe-step"><small>D</small><p>Top-100 evidence pool</p></div>
+                </div>
+
+                <div class="pipeline-row focus">
+                  <div class="stage-label"><b>2</b><span>Selection bottleneck</span></div>
+                  <div class="pipe-step"><small>E</small><p>Citation candidates</p></div>
+                  <div class="pipe-step"><small>F</small><p>Feature evidence table</p></div>
+                  <div class="pipe-step"><small>G</small><p>Legal dimension verifier</p></div>
+                  <div class="pipe-step"><small>H</small><p>Evidence-gated citation control</p></div>
+                </div>
+
+                <div class="pipeline-row">
+                  <div class="stage-label"><b>3</b><span>Submission exactness</span></div>
+                  <div class="pipe-step"><small>I</small><p>Citation normalization</p></div>
+                  <div class="pipe-step"><small>J</small><p>Vocabulary validation</p></div>
+                  <div class="pipe-step"><small>K</small><p>Submission assembly</p></div>
+                  <div class="pipe-step"><small>L</small><p>Corpus-backed citations only</p></div>
+                </div>
+              </div>
+
+              <div class="result-log">
+                <div>
+                  <h4>Result log</h4>
+                  <p>The decisive jump came from controlled citation selection: stronger evidence, less citation noise, exact corpus vocabulary.</p>
+                </div>
+                <div class="result-bars" aria-label="Macro F1 benchmark progression">
+                  <div class="result-bar" style="--score: 11%"><span>BM25</span><i></i><b>0.0643</b></div>
+                  <div class="result-bar" style="--score: 24%"><span>Titan dense</span><i></i><b>0.1009</b></div>
+                  <div class="result-bar" style="--score: 37%"><span>SIRA BM25</span><i></i><b>0.1396</b></div>
+                  <div class="result-bar" style="--score: 45%"><span>Qwen + XGBoost</span><i></i><b>0.2163</b></div>
+                  <div class="result-bar final" style="--score: 100%"><span>Final controller</span><i></i><b>0.58</b></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="catalog">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Agent catalog</span>
+              <h2>A portfolio of legal operators.</h2>
+            </div>
+            <p>
+              Each agent is a focused product surface with a clear buyer value. Together they form a Legal RAG platform
+              that can start narrow, prove quality, and expand inside legal teams.
+            </p>
+          </div>
+
+          <div class="agent-grid">
+            <article class="bezel agent-card reveal delay-1">
+              <div class="core">
+                <div class="agent-number"><span>01</span><em>Intake layer</em></div>
+                <h3>Intake Agent</h3>
+                <p>Converts messy user requests into jurisdiction, issue class, fact slots, urgency, and review level.</p>
+                <ul>
+                  <li>Reduces blank-page friction for non-lawyers and junior teams.</li>
+                  <li>Creates structured case context before retrieval starts.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="bezel agent-card reveal delay-2">
+              <div class="core">
+                <div class="agent-number"><span>02</span><em>Retrieval</em></div>
+                <h3>Retrieval Agent</h3>
+                <p>Finds statutes, case law, internal templates, and prior work product with authority-aware ranking.</p>
+                <ul>
+                  <li>Supports the strongest wedge: research-heavy legal workflows.</li>
+                  <li>Builds reusable source ledgers for each matter.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="bezel agent-card reveal delay-3">
+              <div class="core">
+                <div class="agent-number"><span>03</span><em>Validation</em></div>
+                <h3>Citation Agent</h3>
+                <p>Checks whether citations, quotes, and legal references are real before a response moves forward.</p>
+                <ul>
+                  <li>Directly attacks hallucination risk.</li>
+                  <li>Creates investor-grade quality differentiation.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="bezel agent-card reveal delay-1">
+              <div class="core">
+                <div class="agent-number"><span>04</span><em>Controls</em></div>
+                <h3>Risk Agent</h3>
+                <p>Detects conflicts, missing facts, unusual clauses, deadlines, jurisdiction gaps, and escalation needs.</p>
+                <ul>
+                  <li>Turns AI output into a supervised workflow.</li>
+                  <li>Makes governance visible to legal operations teams.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="bezel agent-card reveal delay-2">
+              <div class="core">
+                <div class="agent-number"><span>05</span><em>Production</em></div>
+                <h3>Draft Agent</h3>
+                <p>Produces memos, clause variants, client emails, research outlines, and issue trees from checked sources.</p>
+                <ul>
+                  <li>Increases throughput without skipping review.</li>
+                  <li>Keeps generated text linked to the evidence ledger.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="bezel agent-card reveal delay-3">
+              <div class="core">
+                <div class="agent-number"><span>06</span><em>Memory</em></div>
+                <h3>Matter Memory Agent</h3>
+                <p>Maps prior matters, firm playbooks, preferred positions, and permission boundaries.</p>
+                <ul>
+                  <li>Builds compounding advantage from every reviewed matter.</li>
+                  <li>Supports data-room and enterprise security conversations.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="diligence">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">Investor diligence</span>
+              <h2>Clear wedge. Expandable platform.</h2>
+            </div>
+            <p>
+              The public story is tuned for accelerator review: focused problem, defensible quality layer, concrete
+              roadmap, and a credible path from prototype to design partners.
+            </p>
+          </div>
+
+          <div class="metric-grid">
+            <article class="bezel metric-card highlight reveal delay-1">
+              <div class="core">
+                <h3>Initial beachhead</h3>
+                <p>
+                  Research-heavy legal workflows where accuracy, source traceability, and review discipline matter more
+                  than raw chat speed.
+                </p>
+                <div class="metric-kpis" aria-label="Investment narrative pillars">
+                  <div class="kpi">
+                    <strong>01</strong>
+                    <span>Legal RAG workbench</span>
+                  </div>
+                  <div class="kpi">
+                    <strong>02</strong>
+                    <span>Agentic workflow layer</span>
+                  </div>
+                  <div class="kpi">
+                    <strong>03</strong>
+                    <span>Auditable review loop</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="bezel metric-card reveal delay-2">
+              <div class="core">
+                <h3>Defensibility</h3>
+                <p>
+                  Better Call Agents can compete on process quality: source ledgers, citation verification, evaluation
+                  sets, permission-aware matter memory, and legal workflow UX.
+                </p>
+                <ul>
+                  <li>Domain-specific retrieval and ranking can improve over time.</li>
+                  <li>Reviewed outputs become reusable operating knowledge.</li>
+                  <li>Compliance posture is part of the product, not a late add-on.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+
+          <div class="timeline">
+            <article class="bezel reveal delay-1">
+              <div class="core">
+                <time>Now</time>
+                <h3>Prototype story</h3>
+                <p>Position the product around Legal RAG agents, quality controls, and a concise investor narrative.</p>
+              </div>
+            </article>
+            <article class="bezel reveal delay-2">
+              <div class="core">
+                <time>30 days</time>
+                <h3>Clickable MVP</h3>
+                <p>Turn the agent catalog into a working research workflow with source-ledger UX.</p>
+              </div>
+            </article>
+            <article class="bezel reveal delay-3">
+              <div class="core">
+                <time>60 days</time>
+                <h3>Design partners</h3>
+                <p>Run structured pilots with legal teams, clinics, or research groups and collect quality signals.</p>
+              </div>
+            </article>
+            <article class="bezel reveal delay-1">
+              <div class="core">
+                <time>90 days</time>
+                <h3>Data room</h3>
+                <p>Package demos, evals, pilot learnings, roadmap, and accelerator-ready fundraising materials.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="ask">
+          <div class="team-strip">
+            <article class="bezel team-card reveal delay-1">
+              <div class="core">
+                <span class="eyebrow">Founding team</span>
+                <h2>Legal RAG team from Hannover.</h2>
+                <div class="people" aria-label="Team members">
+                  <div class="person">
+                    <div class="avatar" aria-hidden="true">SW</div>
+                    <div>
+                      <strong>Steffan Wolter</strong>
+                      <span>Better Call Agents founding team</span>
+                    </div>
+                  </div>
+                  <div class="person">
+                    <div class="avatar" aria-hidden="true">QS</div>
+                    <div>
+                      <strong>Qasim Sefaldeen</strong>
+                      <span>Better Call Agents founding team</span>
+                    </div>
+                  </div>
+                  <div class="person">
+                    <div class="avatar" aria-hidden="true">JT</div>
+                    <div>
+                      <strong>Johny Tarbouch</strong>
+                      <span>Better Call Agents founding team</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="bezel ask-card feature reveal delay-2">
+              <div class="core">
+                <div>
+                  <span class="eyebrow">Accelerator ask</span>
+                  <h3>Seeking the right investor operator.</h3>
+                  <p>
+                    Ideal support: accelerator capital, legal design partners, compliance guidance, cloud credits, and
+                    access to law firms or legal operations teams that care about source-backed AI.
+                  </p>
+                  <ul>
+                    <li>Pre-seed or accelerator conversations.</li>
+                    <li>Design partners for high-volume legal research workflows.</li>
+                    <li>Mentors in legal tech, GTM, data governance, and AI evaluation.</li>
+                  </ul>
+                </div>
+                <div class="ask-actions">
+                  <a class="btn btn-primary magnetic" href="https://github.com/SteffanWolter" target="_blank" rel="noreferrer">
+                    Start intro
+                    <span class="btn-icon" aria-hidden="true">↗</span>
+                  </a>
+                  <a class="btn btn-secondary magnetic" href="#top">
+                    Back to pitch
+                    <span class="btn-icon" aria-hidden="true">↑</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-line" aria-hidden="true"></div>
+        <p>
+          Better Call Agents is an early-stage Legal AI showcase. The product concept is designed to support legal
+          workflows with retrieval, citation validation, and human review. It is not a substitute for professional legal
+          advice.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("evidenceCanvas");
+      const context = canvas.getContext("2d");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let width = 0;
+      let height = 0;
+      let deviceRatio = 1;
+      let pointer = { x: 0.72, y: 0.34 };
+      const nodes = Array.from({ length: 58 }, (_, index) => ({
+        x: (Math.sin(index * 91.7) * 0.5 + 0.5) * window.innerWidth,
+        y: (Math.cos(index * 37.2) * 0.5 + 0.5) * window.innerHeight,
+        r: 1.2 + (index % 5) * 0.35,
+        speed: 0.18 + (index % 7) * 0.045,
+        phase: index * 0.73,
+        color: index % 6 === 0 ? "#61d9ff" : index % 3 === 0 ? "#f8c904" : "#d2140b",
+      }));
+
+      function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        deviceRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * deviceRatio);
+        canvas.height = Math.floor(height * deviceRatio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
+      }
+
+      function drawScales(cx, cy, size, alpha) {
+        context.save();
+        context.globalAlpha = alpha;
+        context.strokeStyle = "#f8c904";
+        context.lineWidth = 1.2;
+        context.lineCap = "round";
+        context.beginPath();
+        context.moveTo(cx, cy - size * 0.58);
+        context.lineTo(cx, cy + size * 0.52);
+        context.moveTo(cx - size * 0.46, cy - size * 0.2);
+        context.lineTo(cx + size * 0.46, cy - size * 0.2);
+        context.moveTo(cx - size * 0.25, cy + size * 0.52);
+        context.lineTo(cx + size * 0.25, cy + size * 0.52);
+        context.stroke();
+        for (const direction of [-1, 1]) {
+          const panX = cx + direction * size * 0.34;
+          context.beginPath();
+          context.moveTo(panX, cy - size * 0.2);
+          context.lineTo(panX - direction * size * 0.12, cy + size * 0.12);
+          context.moveTo(panX, cy - size * 0.2);
+          context.lineTo(panX + direction * size * 0.12, cy + size * 0.12);
+          context.moveTo(panX - size * 0.16, cy + size * 0.12);
+          context.quadraticCurveTo(panX, cy + size * 0.25, panX + size * 0.16, cy + size * 0.12);
+          context.stroke();
+        }
+        context.restore();
+      }
+
+      function drawFrame(time) {
+        context.clearRect(0, 0, width, height);
+
+        const band = context.createLinearGradient(0, 0, 0, height);
+        band.addColorStop(0, "rgba(170, 9, 6, 0.28)");
+        band.addColorStop(0.34, "rgba(5, 3, 2, 0.03)");
+        band.addColorStop(0.78, "rgba(248, 201, 4, 0.08)");
+        band.addColorStop(1, "rgba(5, 3, 2, 0.1)");
+        context.fillStyle = band;
+        context.fillRect(0, 0, width, height);
+
+        context.save();
+        context.globalAlpha = 0.2;
+        context.fillStyle = "#aa0906";
+        context.fillRect(0, 0, width, Math.max(130, height * 0.16));
+        context.fillStyle = "#f8c904";
+        context.fillRect(0, Math.max(130, height * 0.16), width, 5);
+        context.restore();
+
+        const t = time * 0.001;
+        for (const node of nodes) {
+          node.x += Math.cos(t * node.speed + node.phase) * 0.18 + (pointer.x - 0.5) * 0.025;
+          node.y += Math.sin(t * node.speed + node.phase) * 0.16 + (pointer.y - 0.5) * 0.025;
+          if (node.x < -40) node.x = width + 40;
+          if (node.x > width + 40) node.x = -40;
+          if (node.y < -40) node.y = height + 40;
+          if (node.y > height + 40) node.y = -40;
+        }
+
+        for (let i = 0; i < nodes.length; i += 1) {
+          for (let j = i + 1; j < nodes.length; j += 1) {
+            const a = nodes[i];
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance < 145) {
+              context.globalAlpha = (1 - distance / 145) * 0.23;
+              context.strokeStyle = i % 4 === 0 ? "#f8c904" : "#d2140b";
+              context.lineWidth = 0.85;
+              context.beginPath();
+              context.moveTo(a.x, a.y);
+              context.lineTo(b.x, b.y);
+              context.stroke();
+            }
+          }
+        }
+
+        context.globalAlpha = 1;
+        for (const node of nodes) {
+          context.beginPath();
+          context.fillStyle = node.color;
+          context.globalAlpha = node.color === "#61d9ff" ? 0.64 : 0.48;
+          context.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+          context.fill();
+        }
+
+        drawScales(width * 0.73, height * 0.47, Math.min(width, height) * 0.34, 0.12);
+
+        if (!prefersReducedMotion) {
+          requestAnimationFrame(drawFrame);
+        }
+      }
+
+      resizeCanvas();
+      drawFrame(0);
+      if (!prefersReducedMotion) {
+        requestAnimationFrame(drawFrame);
+      }
+      window.addEventListener("resize", resizeCanvas, { passive: true });
+      window.addEventListener(
+        "pointermove",
+        (event) => {
+          pointer = { x: event.clientX / Math.max(width, 1), y: event.clientY / Math.max(height, 1) };
+        },
+        { passive: true }
+      );
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+
+      document.querySelectorAll(".magnetic").forEach((element) => {
+        element.addEventListener("pointermove", (event) => {
+          const rect = element.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width - 0.5) * 8;
+          const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+          element.style.setProperty("--mx", `${x}px`);
+          element.style.setProperty("--my", `${y}px`);
+        });
+        element.addEventListener("pointerleave", () => {
+          element.style.setProperty("--mx", "0px");
+          element.style.setProperty("--my", "0px");
+        });
+      });
+
+      const menuButton = document.querySelector(".menu-toggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      function closeMenu() {
+        menuButton.setAttribute("aria-expanded", "false");
+        mobileMenu.classList.remove("open");
+        mobileMenu.setAttribute("aria-hidden", "true");
+      }
+      menuButton.addEventListener("click", () => {
+        const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", String(!isOpen));
+        mobileMenu.classList.toggle("open", !isOpen);
+        mobileMenu.setAttribute("aria-hidden", String(isOpen));
+      });
+      mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    </script>
+  </body>
+</html>
